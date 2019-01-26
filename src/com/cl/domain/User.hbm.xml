@@ -10,6 +10,7 @@
 		
 		<property name="user_name"></property>
 		<property name="user_password"></property>
+		
 		<property name="user_state"></property>
 		<property name="user_code"></property>
 	</class>

@@ -20,5 +20,11 @@ public class UserServiceImpl implements UserService{
 		//调用Dao
 		userDao.save(user);
 	}
+	@Override
+	public User login(User user) {
+		//密码处理
+		user.setUser_password(MD5Utils.md5(user.getUser_password()));
+		return userDao.login(user);
+	}
 
 }

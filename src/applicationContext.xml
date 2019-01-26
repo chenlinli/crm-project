@@ -23,15 +23,44 @@
 		<property name="password" value="${jdbc.password}"></property>
 </bean>
 	<!-- 配置Action -->
-	<bean id="userAction" class="com.cl.web.action.UserAction">
+	<bean id="userAction" class="com.cl.web.action.UserAction" scope="prototype">
 		<property name="userService" ref="userService"></property>
 	</bean>
+	
 	<!-- 配置Service -->
 	<bean id="userService" class="com.cl.service.impl.UserServiceImpl">
 		<property name="userDao" ref="userDao"></property>
 	</bean>
+
 	<!-- 配置Dao -->
 	<bean id="userDao" class="com.cl.dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	
+	<!-- 配置客户Action Service Dao -->
+	<bean id="customerAction" class="com.cl.web.action.CustomerAction" scope="prototype">
+		<property name="customerService" ref="customerService"></property>
+	</bean>
+	
+	<bean id="customerService" class="com.cl.service.impl.CustomerServiceImpl">
+		<property name="customerDao" ref="customerDao"></property>
+	</bean>
+	
+	<bean id="customerDao" class="com.cl.dao.impl.CustomerDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 字典相关配置 -->
+	<bean id="baseDictAction" class="com.cl.web.action.BaseDictAction" scope="prototype">
+		<property name="baseDictService" ref="baseDictService"></property>
+	</bean>
+	
+	<bean id="baseDictService" class="com.cl.service.impl.BaseDictServiceImpl">
+		<property name="baseDictDao" ref="baseDictDao"></property>
+	</bean>
+	
+	<bean id="baseDictDao" class="com.cl.dao.impl.BaseDictDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
@@ -52,6 +81,8 @@
 		<property name="mappingResources">
 			<list>
 				<value>com/cl/domain/User.hbm.xml</value>
+				<value>com/cl/domain/Customer.hbm.xml</value>
+				<value>com/cl/domain/BaseDict.hbm.xml</value>
 			</list>
 		</property>
 	</bean>

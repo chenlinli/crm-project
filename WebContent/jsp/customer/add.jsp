@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,6 +10,40 @@
 <LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
 	rel=stylesheet>
 
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+//页面一加载就会执行
+	$(function(){
+		//页面加载异步查询字典数据
+		$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",
+				{"dict_type_code":"002"},
+				function(data){
+					//遍历json数组
+					$(data).each(function(i,n){
+						$("#cust_source").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>");
+					});
+				},"json");
+		
+		$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",
+				{"dict_type_code":"006"},
+				function(data){
+					//遍历json数组
+					$(data).each(function(i,n){
+						$("#cust_level").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>");
+					});
+				},"json");
+		$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",
+				{"dict_type_code":"001"},
+				function(data){
+					//遍历json数组
+					$(data).each(function(i,n){
+						$("#cust_industry").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>");
+					});
+				},"json");
+	
+	});
+</script>
 
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
@@ -56,8 +91,9 @@
 								</td>
 								<td>客户级别 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_level">
+									<select id="cust_level" name="baseDictLevel.dict_id">
+									<option value="">--请选择--</option>
+									</select>
 								</td>
 							</TR>
 							
@@ -65,13 +101,16 @@
 								
 								<td>信息来源 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_source">
+									<select id="cust_source" name="baseDictSource.dict_id">
+									<option value="">--请选择--</option>
+									
+									</select>
 								</td>
 								<td>所属行业 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_industry">
+									<select id="cust_industry" name="baseDictIndustry.dict_id">
+										<option value="">--请选择--</option>
+									</select>
 								</td>
 							</TR>
 							

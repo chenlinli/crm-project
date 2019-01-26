@@ -9,6 +9,17 @@
 	<package name="crm" extends="struts-default" namespace="/">
 		<action name="user_*" class="userAction" method="{1}">
 			<result name="login">/login.jsp</result>
+			<result type="redirect">/index.jsp</result>
+		</action>
+		
+		<!-- 客户管理 -->
+		<action name="customer_*" class="customerAction" method="{1}">
+			<result name="saveUI">/jsp/customer/add.jsp</result>
+			<result name="findAll">/jsp/customer/list.jsp</result>
+		</action>
+		
+		<action name="baseDict_*" class="baseDictAction" method="{1}">
+			
 		</action>
 	</package>
 </struts>
