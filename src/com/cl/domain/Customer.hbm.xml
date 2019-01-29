@@ -14,10 +14,16 @@
 		<property name="cust_level"></property> -->
 		<property name="cust_phone"></property>
 		<property name="cust_mobile"></property>
-		
+		<property name="cust_image"></property>
 		<!-- 客户与字典多对一，配置字典 -->
 		<many-to-one name="baseDictSource" class="com.cl.domain.BaseDict" column="cust_source"></many-to-one>
 		<many-to-one name="baseDictIndustry" class="com.cl.domain.BaseDict" column="cust_industry"></many-to-one>
 		<many-to-one name="baseDictLevel" class="com.cl.domain.BaseDict" column="cust_level"></many-to-one>
+		
+		<!-- 联系人关系映射 ,删除客户的时候级联删除联系人,放弃外键维护权，多的一方才能维护外键-->
+		<set name="linkMans" cascade="delete" inverse="true">
+			<key column="lkm_cust_id" />
+			<one-to-many class="com.cl.domain.LinkMan"/>
+		</set>
 	</class>
 </hibernate-mapping>    

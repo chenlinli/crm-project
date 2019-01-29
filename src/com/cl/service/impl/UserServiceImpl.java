@@ -1,10 +1,13 @@
 package com.cl.service.impl;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.cl.dao.UserDao;
 import com.cl.domain.User;
 import com.cl.service.UserService;
 import com.cl.utils.MD5Utils;
 
+@Transactional
 public class UserServiceImpl implements UserService{
 
 	//×¢ÈëDao

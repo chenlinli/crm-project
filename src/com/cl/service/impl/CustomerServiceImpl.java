@@ -45,5 +45,27 @@ public class CustomerServiceImpl implements CustomerService{
 		System.out.println(list);
 		return pageBean;
 	}
+
+	@Override
+	public Customer findById(Long cust_id) {
+		return customerDao.findById(cust_id);
+	}
+
+	@Override
+	public void delete(Customer customer) {
+		System.out.println("delete");
+		customerDao.delete(customer);
+		System.out.println("deleted");
+	}
+
+	@Override
+	public void update(Customer customer) {
+		customerDao.update(customer);
+	}
+
+	@Override
+	public List<Customer> findAll() {
+		return customerDao.findAll();
+	}
 	
 }

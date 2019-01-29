@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,21 +10,61 @@
 <LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
 	rel=stylesheet>
 
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+//页面一加载就会执行
+	$(function(){
+		//页面加载异步查询字典数据
+		$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",
+				{"dict_type_code":"002"},
+				function(data){
+					//遍历json数组
+					$(data).each(function(i,n){
+						$("#cust_source").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>");
+					});
+					//EL获取值栈数据
+					$("#cust_source option[value='${model.baseDictSource.dict_id}']").prop("selected","selected");
+					
+				},"json");
+		
+		$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",
+				{"dict_type_code":"006"},
+				function(data){
+					//遍历json数组
+					$(data).each(function(i,n){
+						$("#cust_level").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>");
+					});
+					$("#cust_level option[value='${model.baseDictLevel.dict_id}']").prop("selected","selected");
+				},"json");
+		$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",
+				{"dict_type_code":"001"},
+				function(data){
+					//遍历json数组
+					$(data).each(function(i,n){
+						$("#cust_industry").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>");
+					});
+					$("#cust_industry option[value='${model.baseDictIndustry.dict_id}']").prop("selected","selected");
+				},"json");
+	
+	});
+</script>
 
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
-	<FORM id=form1 name=form1
-		action="${pageContext.request.contextPath }/customer_update.action"
-		method="post">
-		<input type="hidden" name="cust_id" value="${customer.cust_id }"/>
-
+<s:actionerror/>
+<s:fielderror/>
+	<s:form id="form1" name="form1" action="customer_update" namespace="/"
+		method="post" enctype="multipart/form-data" theme="simple">
+		<s:hidden name="cust_id" value="%{model.cust_id}"/>
+		<s:hidden name="cust_image" value="%{model.cust_image}"/>
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
 					<TD width=15><IMG src="${pageContext.request.contextPath }/images/new_019.jpg"
 						border=0></TD>
-					<TD width="100%" background=${pageContext.request.contextPath }/images/new_020.jpg
+					<TD width="100%" background="${pageContext.request.contextPath }/images/new_020.jpg"
 						height=20></TD>
 					<TD width=15><IMG src="${pageContext.request.contextPath }/images/new_021.jpg"
 						border=0></TD>
@@ -38,77 +79,68 @@
 					<TD vAlign=top width="100%" bgColor=#ffffff>
 						<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 							<TR>
-								<TD class=manageHead>当前位置：客户管理 &gt; 修改客户</TD>
+								<TD class=manageHead>当前位置：客户管理 &gt; 添加客户</TD>
 							</TR>
 							<TR>
 								<TD height=2></TD>
 							</TR>
 						</TABLE>
+						
 						<TABLE cellSpacing=0 cellPadding=5  border=0>
+						  
+						    
 							<TR>
 								<td>客户名称：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-											style="WIDTH: 180px" maxLength=50 name="cust_name" value="${customer.cust_name }">
+								<s:textfield cssClass="textbox" cssStyle="WIDTH: 180px" maxLength="50" name="cust_name" value="%{model.cust_name}"></s:textfield>
 								</td>
 								<td>客户级别 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_level" value="${customer.cust_level }">
+									<select id="cust_level" name="baseDictLevel.dict_id">
+									<option value="">--请选择--</option>
+									</select>
 								</td>
 							</TR>
 							
 							<TR>
-								<td>信息来源：</td>
+								
+								<td>信息来源 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_source" value="${customer.cust_source }">
+									<select id="cust_source" name="baseDictSource.dict_id">
+									<option value="">--请选择--</option>
+									
+									</select>
 								</td>
-								<td>所属行业：</td>
+								<td>所属行业 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_industry" value="${customer.cust_industry }">
+									<select id="cust_industry" name="baseDictIndustry.dict_id">
+										<option value="">--请选择--</option>
+									</select>
 								</td>
 							</TR>
+							
 							<TR>
 								
 								
 								<td>固定电话 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_phone" value="${customer.cust_phone }">
+								<s:textfield cssClass="textbox" cssStyle="WIDTH: 180px" maxLength="50" name="cust_phone" value="%{model.cust_phone}"></s:textfield>
 								</td>
 								<td>移动电话 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_mobile" value="${customer.cust_mobile }">
+								<s:textfield cssClass="textbox" cssStyle="WIDTH: 180px" maxLength="50" name="cust_mobile" value="%{model.cust_mobile}"></s:textfield>
+								
 								</td>
+							</TR>
+										
+							<TR>
+								
+								
+								<td>客户资质 ：</td>
+								<td colspan="3">
+								<INPUT type="file" name="upload"/></td>
 							</TR>
 							
-						<%-- 	<TR>
-								<td>联系地址 ：</td>
-								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custAddress" value="${customerDetail.custAddress }">
-								</td>
-								<td>邮政编码 ：</td>
-								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custZip" value="${customerDetail.custZip }">
-								</td>
-							</TR>
-							<TR>
-								<td>客户传真 ：</td>
-								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custFax" value="${customerDetail.custFax }">
-								</td>
-								<td>客户网址 ：</td>
-								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custWebsite" value="${customerDetail.custWebsite }">
-								</td>
-							</TR> --%>
 							<tr>
 								<td rowspan=2>
 								<INPUT class=button id=sButton2 type=submit
@@ -136,6 +168,6 @@
 				</TR>
 			</TBODY>
 		</TABLE>
-	</FORM>
+	</s:form>
 </BODY>
 </HTML>

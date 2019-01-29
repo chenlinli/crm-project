@@ -64,6 +64,22 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
+	<!-- 联系人相关配置之 -->
+	
+	<bean id="linkManAction" class="com.cl.web.action.LinkManAction" scope="prototype">
+		<property name="linkManService" ref="linkManService"></property>
+		<property name="customerService" ref="customerService"></property>
+	</bean>
+	
+	<bean id="linkManService" class="com.cl.service.impl.LinkManServiceImpl">
+		<property name="linkManDao" ref="linkManDao"></property>
+	</bean>
+	
+	<bean id="linkManDao" class="com.cl.dao.impl.LinkManDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	
 	<!-- 配置SessionFactory -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
@@ -83,6 +99,7 @@
 				<value>com/cl/domain/User.hbm.xml</value>
 				<value>com/cl/domain/Customer.hbm.xml</value>
 				<value>com/cl/domain/BaseDict.hbm.xml</value>
+				<value>com/cl/domain/LinkMan.hbm.xml</value>
 			</list>
 		</property>
 	</bean>

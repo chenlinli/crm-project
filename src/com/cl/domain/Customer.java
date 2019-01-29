@@ -1,6 +1,7 @@
 package com.cl.domain;
 
-import org.hibernate.criterion.DetachedCriteria;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Customer {
 
@@ -11,12 +12,21 @@ public class Customer {
 //	private String cust_level;
 	private String cust_phone;
 	private String cust_mobile;
+	private String cust_image;
+	
 	
 	//客户字典多对一的，需要多的一方方一的一方的对象
 	private BaseDict baseDictSource;
 	private BaseDict baseDictIndustry;
 	private BaseDict baseDictLevel;
-	
+	//一个客户对各联系人
+	private Set<LinkMan> linkMans = new HashSet<LinkMan>();
+	public Set<LinkMan> getLinkMans() {
+		return linkMans;
+	}
+	public void setLinkMans(Set<LinkMan> linkMans) {
+		this.linkMans = linkMans;
+	}
 	public BaseDict getBaseDictSource() {
 		return baseDictSource;
 	}
@@ -63,4 +73,18 @@ public class Customer {
 	public void setCust_mobile(String cust_mobile) {
 		this.cust_mobile = cust_mobile;
 	}
+	public String getCust_image() {
+		return cust_image;
+	}
+	public void setCust_image(String cust_image) {
+		this.cust_image = cust_image;
+	}
+	@Override
+	public String toString() {
+		return "Customer [cust_id=" + cust_id + ", cust_name=" + cust_name + ", cust_phone=" + cust_phone
+				+ ", cust_mobile=" + cust_mobile + ", cust_image=" + cust_image + ", baseDictSource=" + baseDictSource
+				+ ", baseDictIndustry=" + baseDictIndustry + ", baseDictLevel=" + baseDictLevel + ", linkMans="
+				+ linkMans + "]";
+	}
+	
 }
