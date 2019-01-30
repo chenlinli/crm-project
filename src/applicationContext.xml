@@ -22,6 +22,9 @@
 		<property name="user" value="${jdbc.username}"></property>
 		<property name="password" value="${jdbc.password}"></property>
 </bean>
+	<!-- 开启属性注入的注解 -->
+	<context:annotation-config/>
+	
 	<!-- 配置Action -->
 	<bean id="userAction" class="com.cl.web.action.UserAction" scope="prototype">
 		<property name="userService" ref="userService"></property>
@@ -79,6 +82,18 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
+	<!-- 拜访记录的相关配置 -->
+	<bean id="saleVisitAction" class="com.cl.web.action.SaleVisitAction" scope="prototype"> 
+	
+	</bean>
+	
+	<bean id="saleVisitService" class="com.cl.service.impl.SaleVisitServiceImpl">
+	
+	</bean>
+	
+	<bean  id="saleVisitDao" class="com.cl.dao.impl.SaleVisitDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 	
 	<!-- 配置SessionFactory -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -100,6 +115,7 @@
 				<value>com/cl/domain/Customer.hbm.xml</value>
 				<value>com/cl/domain/BaseDict.hbm.xml</value>
 				<value>com/cl/domain/LinkMan.hbm.xml</value>
+				<value>com/cl/domain/SaleVisit.hbm.xml</value>
 			</list>
 		</property>
 	</bean>

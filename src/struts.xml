@@ -9,9 +9,25 @@
 	<!-- 表单上传文件总大小，5M -->
 	<constant name="struts.multipart.maxSize" value="5242880"/>
 	<package name="crm" extends="struts-default" namespace="/">
+		<!-- 拦截器 -->
+		<interceptors>
+			<interceptor name="priviledeInterceptor" class="com.cl.web.interceptor.PriviledeInterceptor"></interceptor>
+		</interceptors>
+		
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
 		<action name="user_*" class="userAction" method="{1}">
 			<result name="login">/login.jsp</result>
 			<result type="redirect">/index.jsp</result>
+			
+			<!-- 使用拦截器 -->
+			<interceptor-ref name="priviledeInterceptor">
+			<!-- 不拦截user的regist和login方法 -->
+				<param name="excludeMethods">regist,login</param>
+			</interceptor-ref>
+			<!-- 引入默认拦截器 -->
+			<interceptor-ref name="defaultStack"></interceptor-ref>
 		</action>
 		
 		<!-- 客户管理 -->
@@ -21,6 +37,7 @@
 			<result name="saveSuccess" type="redirectAction">customer_findAll.action</result>
 			<result name="input">/jsp/customer/add.jsp</result>
 			<!-- 设置拦截器，设定单个上传文件大小和格式 -->
+			<interceptor-ref name="priviledeInterceptor"/>
 			<interceptor-ref name="defaultStack">
 				<param name="fileUpload.maximumSize">2097152</param>
 				<param name="fileUpload.allowedExtensions">.jpg</param>
@@ -41,6 +58,16 @@
 			<result name="editSuccess" >/jsp/linkman/edit.jsp</result>
 			<result name="updateSuccess" type="redirectAction">linkMan_findAll.action</result>
 			<result name="deleteSuccess" type="redirectAction">linkMan_findAll.action</result>
+						<interceptor-ref name="priviledeInterceptor"/>
+			<interceptor-ref name="defaultStack"/>
+		</action>
+		
+		<action name="saleVisit_*" class="saleVisitAction" method="{1}">
+			<result name="findAll">/jsp/saleVisit/list.jsp</result>
+			<result name="saveUI">/jsp/saleVisit/add.jsp</result>
+			<result name="saveSuccess" type="redirectAction">saleVisit_findAll.action</result>
+			<interceptor-ref name="priviledeInterceptor"/>
+			<interceptor-ref name="defaultStack"/>
 		</action>
 	</package>
 </struts>

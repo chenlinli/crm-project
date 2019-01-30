@@ -1,5 +1,7 @@
 package com.cl.service.impl;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cl.dao.UserDao;
@@ -28,6 +30,10 @@ public class UserServiceImpl implements UserService{
 		//√‹¬Î¥¶¿Ì
 		user.setUser_password(MD5Utils.md5(user.getUser_password()));
 		return userDao.login(user);
+	}
+	@Override
+	public List<User> findAll() {
+		return userDao.findAll();
 	}
 
 }

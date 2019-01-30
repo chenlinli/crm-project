@@ -3,6 +3,11 @@ package com.cl.domain;
 import java.util.List;
 
 public class PageBean<T>{
+	@Override
+	public String toString() {
+		return "PageBean [currPage=" + currPage + ", pageSize=" + pageSize + ", totalPage=" + totalPage
+				+ ", totalCount=" + totalCount + ", list=" + list + "]";
+	}
 	private Integer currPage;//当前页
 	private Integer pageSize;//每页的记录数
 	private Integer totalPage;//总页数

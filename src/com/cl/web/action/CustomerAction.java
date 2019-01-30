@@ -2,9 +2,11 @@ package com.cl.web.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -15,6 +17,10 @@ import com.cl.utils.UploadUtils;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 public class CustomerAction extends ActionSupport implements ModelDriven<Customer> {
 	
@@ -136,10 +142,8 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	
 	public String delete(){
 		//先查询再删除，方便级联删除
-		System.out.println("Action delete***********************************");
 		customer = customerService.findById(customer.getCust_id());
 		//删除客户图片
-		System.out.println(customer);
 		if(customer.getCust_image()!=null){
 			File file =new File(customer.getCust_image());
 			if(file.exists()){
@@ -192,5 +196,16 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		}
 		customerService.update(customer);
 		return "updateSuccess";
+	}
+	
+	public String findAllCustomer() throws IOException{
+		List<Customer> list = customerService.findAll();
+		JsonConfig cfg= new JsonConfig();
+		cfg.setExcludes(new String[]{"linkMans","baseDictSource","baseDictIndustry","baseDictLevel"});
+		JSONArray jsonArray = JSONArray.fromObject(list,cfg);
+		ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
+		System.out.println(jsonArray.toString());
+		ServletActionContext.getResponse().getWriter().println(jsonArray.toString());
+		return NONE;
 	}
 }
